@@ -83,7 +83,9 @@ body {
   background-color: var(--dark-box-background-color);
 }
 
-@media (min-width: 360px) and (max-width: 700px) {
+
+/* mobile screen */
+@media (min-width: 320px) and (max-width: 700px) {
   
   body {
     padding: 10px;
@@ -129,6 +131,7 @@ body {
   }
 }
 
+/* ipad screen */
 @media (min-width: 760px) and (max-width: 1024px)  {
   .app {
     gap: 5px;
@@ -166,6 +169,7 @@ body {
   }
 }
 
+/* desktop screen */
 @media (width: 1280px ) and (max-height: 800px) {
   body {
     overflow-y: hidden;
