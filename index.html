@@ -4,13 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <script src="./scripts/svg-inject.min.js"></script>
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Grid test</title>
 </head>
 
 <body>
     <div class="app">
-        <header class="location">Recife, PE</header>
+        <header>
+            <div class="location">
+                <img src="assets/icons/location.svg" alt="ícone de localização" autocapitalize="off" onload="SVGInject(this)">
+                <h3><span>Recife,</span> PE</h3>
+            </div>
+            <div class="search-box">
+                <input type="search" id="search" autocomplete="off" placeholder="Qual seu próximo destino?">
+
+                <span id="clear-btn" class="clear-btn" onclick="clearText()">&times;</span>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" id="theme-switch" onchange="changeTheme(event)">
+                <span class="slider">
+                    <img  id="selected-theme" src="assets/icons/sun.svg" alt="ícone da tela clara">
+                </span>
+            </label>
+            
+        </header>
         <div class="dashboard">
 
 
@@ -18,22 +43,22 @@
                 <!-- info clima atual -->
             </div>
 
-            <div class="today-weather"> 
+            <div class="today-weather">
                 <!-- previsões curtas -->
             </div>
 
-            <div class="map"> 
+            <div class="map">
                 <!-- mapa OpenStreetMap -->
             </div>
 
-            <div class="graphic"></div> 
+            <div class="graphic"></div>
 
-            <div class="week-weather"> 
+            <div class="week-weather">
                 <!-- lista de dias -->
             </div>
         </div>
     </div>
-
+    <script src="scripts/index.js"></script>
 </body>
 
 </html>
