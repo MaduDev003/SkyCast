@@ -17,12 +17,12 @@
 :root {
   --dark-background-color: #070C1B;
   --dark-box-background-color: #0E1935;
-  --principal-dark-background-font-colors: #FFFFFF;
+  --principal-dark-background-font-color: #FFFFFF;
 
 
   --light-background-color: #F0F0F0;
-  --light-box-background-color: #5fb0eb;
-  --principal-light-background-font-colors: #0E1935;
+  --light-box-background-color: #3395db;
+  --principal-light-background-font-color: #0E1935;
 }
 
 body {
@@ -167,13 +167,13 @@ header {
 }
 
 .location h3 {
-  color: #949FAF;
+  color: #68768c;
   font-weight: 400;
   font-size: 1.20rem;
 }
 
 span {
-  color: var(--principal-light-background-font-colors);
+  color: var(--principal-light-background-font-color);
 }
 
 header .location {
@@ -183,7 +183,7 @@ header .location {
 }
 
 header .location svg path {
-  fill: var(--dark-background-color);
+ 
   stroke: var(--dark-background-color);
   stroke-width: 1.5;
 }
@@ -216,13 +216,13 @@ header input[type="search"]::placeholder {
   color: white;
 }
 
-/* remove ícones nativos */
+
 header input[type="search"]::-webkit-search-decoration,
 header input[type="search"]::-webkit-search-cancel-button {
   display: none;
 }
 
-/* remove fundo branco do autofill */
+
 input[type="search"]:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px var(--light-box-background-color) inset;
     -webkit-text-fill-color: #fff;
@@ -238,7 +238,7 @@ input[type="search"]:-webkit-autofill {
   cursor: pointer;
 }
 
-/* ✔ só mostra o X quando tem texto */
+
 input[type="search"]:placeholder-shown + .clear-btn {
   display: none;
 }
@@ -261,17 +261,17 @@ input[type="search"]:placeholder-shown + .clear-btn {
 
 #selected-theme {
   position: absolute;
-  width: 20px;        /* ajuste conforme tamanho do ícone */
+  width: 20px;       
   height: 16px;
   top: 50%;
-  left: 3px;          /* posição inicial sobre a bolinha */
+  left: 3px;          
   transform: translateY(-50%);
-  z-index: 2;         /* por cima da bolinha */
-  pointer-events: none; /* evita interferir no clique */
+  z-index: 2;        
+  pointer-events: none; 
 }
 
 input:checked + .slider #selected-theme {
-  left: 38px;         /* deslocamento quando o switch estiver ON */
+  left: 38px;       
 }
 
 .slider {
@@ -281,7 +281,7 @@ input:checked + .slider #selected-theme {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #73bef4;
   transition: .3s;
   border-radius: 26px;
 }
@@ -299,7 +299,7 @@ input:checked + .slider #selected-theme {
 }
 
 input:checked + .slider {
-  background-color: var(--light-box-background-color);
+  background-color: var(--dark-box-background-color);
 }
 
 input:checked + .slider::before {

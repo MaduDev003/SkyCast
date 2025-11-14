@@ -59,29 +59,39 @@ function _appTheme(choosedTheme) {
     const body = document.body;
     const weatherItems = document.querySelectorAll(".dashboard > div");
     const searchInput = document.querySelector('input[type="search"]');
-    const locationIconPath = document.querySelector("header .location svg path");
+    const locationIconPath = document.querySelector("header .location svg * ");
+    const circleLocation = document.querySelector("header .location svg ");
+    const span = document.querySelector("h3 span");
+
 
     const rootStyles = getComputedStyle(document.documentElement);
 
     const darkBG = rootStyles.getPropertyValue("--dark-background-color").trim();
     const darkBoxBG = rootStyles.getPropertyValue("--dark-box-background-color").trim();
+    const fontForDark = rootStyles.getPropertyValue("--principal-dark-background-font-color").trim();
 
     const lightBG = rootStyles.getPropertyValue("--light-background-color").trim();
     const lightBoxBG = rootStyles.getPropertyValue("--light-box-background-color").trim();
+    const fontForLight = rootStyles.getPropertyValue("--principal-light-background-font-color").trim();
 
 
 
     if (choosedTheme === "dark") {
         body.style.backgroundColor = darkBG;
         locationIconPath.style.stroke = lightBG;
+        circleLocation.style.stroke = lightBG;
         searchInput.style.backgroundColor = darkBoxBG;
+        span.style.color = fontForDark;
         weatherItems.forEach(item => {
             item.style.backgroundColor = darkBoxBG;
         });
+ 
     } else {
-
+        locationIconPath.style.stroke = darkBG;
+        circleLocation.style.stroke = darkBG;
         body.style.backgroundColor = lightBG;
         searchInput.style.backgroundColor = lightBoxBG;
+        span.style.color = fontForLight;
         weatherItems.forEach(item => {
             item.style.backgroundColor = lightBoxBG;
         });
