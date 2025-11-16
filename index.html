@@ -19,7 +19,8 @@
     <div class="app">
         <header>
             <div class="location">
-                <img src="assets/icons/location.svg" alt="ícone de localização" autocapitalize="off" onload="SVGInject(this)">
+                <img src="assets/icons/location.svg" alt="ícone de localização" autocapitalize="off"
+                    onload="SVGInject(this)">
                 <h3><span>Recife,</span> PE</h3>
             </div>
             <div class="search-box">
@@ -31,17 +32,51 @@
             <label class="switch">
                 <input type="checkbox" id="theme-switch" onchange="changeTheme(event)">
                 <span class="slider">
-                    <img  id="selected-theme" src="assets/icons/sun.svg" alt="ícone da tela clara">
+                    <img id="selected-theme" src="assets/icons/sun.svg" alt="ícone da tela clara">
                 </span>
             </label>
-            
+
         </header>
         <div class="dashboard">
-
-
-            <div class="main-weather">
-                <!-- info clima atual -->
+            <div class="selected-weather">
+                <div class="date">
+                    <p>16 nov 2025</p>
+                </div>
+          
+            <div class="main-weather"> 
+                <div class="weather-container">
+                    <div class="weather-info">
+                        <img src="assets/icons/wind.svg" alt="ícone de vento" onload="SVGInject(this)"/>
+                        <p>Vento</p>
+                    </div>
+                    <h2>0.2 KM/H</h2>
+                    <div class="weather-info">
+                        <img src="assets/icons/thermometer.svg" alt="ícone de termometro" onload="SVGInject(this)" />
+                        <p>Sensação Térmica</p>
+                    </div>
+                    <h2>20 C°</h2>
+                </div>
+                <div class="weather">
+                    <img src="assets/rain-weather.png" alt="chuva" />
+                    <div class="temperature">
+                        <h1>22 C°</h1>
+                        <p>Nublado</p>
+                    </div>
+                </div>
+                <div class="weather-container">
+                    <div class="weather-info">
+                        <img src="assets/icons/sun.svg" alt="ícone do sol" onload="SVGInject(this)"/>
+                        <p>Raios UV</p>
+                    </div>
+                    <h2>3</h2>
+                    <div class="weather-info">
+                        <img src="assets/icons/cloud-rain.svg" alt="ícone de nuvem de chuva" onload="SVGInject(this)"/>
+                        <p>Chance de Chuva</p>
+                    </div>
+                    <h2>100%</h2>
+                </div>
             </div>
+              </div>
 
             <div class="today-weather">
                 <!-- previsões curtas -->
