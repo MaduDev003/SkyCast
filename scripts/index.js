@@ -146,7 +146,7 @@ function graphicTemperature() {
             fill: false,
             borderColor: '#4FC3F7',
             tension: 0.2,
-            pointRadius: 5,
+            pointRadius: 5
         }]
     };
 
@@ -168,4 +168,4 @@ function graphicTemperature() {
 
 
 graphicTemperature();
-
+initClearButton();
