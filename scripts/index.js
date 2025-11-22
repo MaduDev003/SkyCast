@@ -42,6 +42,7 @@ document.getElementById("recenter").addEventListener("click", () => {
 });
 
 
+
 function initClearButton() {
     const input = document.getElementById("search");
     const clearBtn = document.getElementById("clear-btn");
@@ -85,7 +86,7 @@ function updateToggleIcons(isDark) {
 function applyUITheme(theme) {
     const root = getComputedStyle(document.documentElement);
 
-    const vars = theme === "dark" ? {
+    const rootStyles = theme === "dark" ? {
         bg: root.getPropertyValue("--dark-background-color").trim(),
         box: root.getPropertyValue("--dark-box-background-color").trim(),
         main: root.getPropertyValue("--principal-dark-background-font-color").trim(),
@@ -113,21 +114,58 @@ function applyUITheme(theme) {
         date: document.querySelector(".date p"),
     };
 
-    elements.body.style.backgroundColor = vars.bg;
-    elements.searchInput.style.backgroundColor = vars.box;
+    elements.body.style.backgroundColor = rootStyles.bg;
+    elements.searchInput.style.backgroundColor = rootStyles.box;
 
-    elements.locationPath.style.stroke = vars.main;
-    elements.locationCircle.style.stroke = vars.main;
-    elements.spanCity.style.color = vars.main;
+    elements.locationPath.style.stroke = rootStyles.main;
+    elements.locationCircle.style.stroke = rootStyles.main;
+    elements.spanCity.style.color = rootStyles.main;
 
-    elements.temperature.style.color = vars.main;
-    elements.tempLegend.style.color = vars.legend;
+    elements.temperature.style.color = rootStyles.main;
+    elements.tempLegend.style.color = rootStyles.legend;
 
-    elements.date.style.color = vars.legend;
+    elements.date.style.color = rootStyles.legend;
 
-    elements.weatherItems.forEach(el => el.style.backgroundColor = vars.box);
-    elements.legends.forEach(el => el.style.color = vars.legend);
-    elements.icons.forEach(el => el.style.color = vars.legend);
-    elements.iconsSvg.forEach(el => el.style.color = vars.legend);
-    elements.descriptions.forEach(el => el.style.color = vars.main);
+    elements.weatherItems.forEach(el => el.style.backgroundColor = rootStyles.box);
+    elements.legends.forEach(el => el.style.color = rootStyles.legend);
+    elements.icons.forEach(el => el.style.color = rootStyles.legend);
+    elements.iconsSvg.forEach(el => el.style.color = rootStyles.legend);
+    elements.descriptions.forEach(el => el.style.color = rootStyles.main);
 }
+
+function graphicTemperature() {
+    const labels = ['06h', '09h', '12h', '15h', '18h', '21h'];
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Temperatura (°C)',
+            data: [22, 25, 29, 30, 27, 24],
+            pointHoverBorderColor: '#0e6892ff',
+            pointHoverBackgroundColor: '#0e6892ff',
+            fill: false,
+            borderColor: '#4FC3F7',
+            tension: 0.2,
+            pointRadius: 5,
+        }]
+    };
+
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    };
+
+    new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+}
+
+
+graphicTemperature();
+
