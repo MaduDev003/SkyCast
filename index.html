@@ -7,9 +7,20 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
         rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="./scripts/svg-inject.min.js"></script>
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Grid test</title>
@@ -40,59 +51,59 @@
         <div class="dashboard">
             <div class="selected-weather">
                 <div class="date">
-                    <p>16 nov 2025</p>
+                    <p>Clima atual</p>
                 </div>
-          
-            <div class="main-weather"> 
-                <div class="weather-container">
-                    <div class="weather-info">
-                        <img src="assets/icons/wind.svg" alt="ícone de vento" onload="SVGInject(this)"/>
-                        <p>Vento</p>
+
+                <div class="main-weather">
+                    <div class="weather-container">
+                        <div class="weather-info">
+                            <img src="assets/icons/wind.svg" alt="ícone de vento" onload="SVGInject(this)" />
+                            <p>Vento</p>
+                        </div>
+                        <h2>0.2 KM/H</h2>
+                        <div class="weather-info">
+                            <img src="assets/icons/thermometer.svg" alt="ícone de termometro"
+                                onload="SVGInject(this)" />
+                            <p>Sensação Térmica</p>
+                        </div>
+                        <h2>20 C°</h2>
                     </div>
-                    <h2>0.2 KM/H</h2>
-                    <div class="weather-info">
-                        <img src="assets/icons/thermometer.svg" alt="ícone de termometro" onload="SVGInject(this)" />
-                        <p>Sensação Térmica</p>
+                    <div class="weather">
+                        <img src="assets/rain-weather.png" alt="chuva" />
+                        <div class="temperature">
+                            <h1>22 C°</h1>
+                            <p>Nublado</p>
+                        </div>
                     </div>
-                    <h2>20 C°</h2>
-                </div>
-                <div class="weather">
-                    <img src="assets/rain-weather.png" alt="chuva" />
-                    <div class="temperature">
-                        <h1>22 C°</h1>
-                        <p>Nublado</p>
+                    <div class="weather-container">
+                        <div class="weather-info">
+                            <img src="assets/icons/sun.svg" alt="ícone do sol" onload="SVGInject(this)" />
+                            <p>Raios UV</p>
+                        </div>
+                        <h2>3</h2>
+                        <div class="weather-info">
+                            <img src="assets/icons/cloud-rain.svg" alt="ícone de nuvem de chuva"
+                                onload="SVGInject(this)" />
+                            <p>Chance de Chuva</p>
+                        </div>
+                        <h2>100%</h2>
                     </div>
-                </div>
-                <div class="weather-container">
-                    <div class="weather-info">
-                        <img src="assets/icons/sun.svg" alt="ícone do sol" onload="SVGInject(this)"/>
-                        <p>Raios UV</p>
-                    </div>
-                    <h2>3</h2>
-                    <div class="weather-info">
-                        <img src="assets/icons/cloud-rain.svg" alt="ícone de nuvem de chuva" onload="SVGInject(this)"/>
-                        <p>Chance de Chuva</p>
-                    </div>
-                    <h2>100%</h2>
                 </div>
             </div>
-              </div>
 
-            <div class="today-weather">
-                <!-- previsões curtas -->
-            </div>
+            <div class="weather-preview"></div>
 
-            <div class="map">
-                <!-- mapa OpenStreetMap -->
+            <div id="map" class="map">
+              <button id="recenter">Centralizar</button>
+
             </div>
 
             <div class="graphic"></div>
 
-            <div class="week-weather">
-                <!-- lista de dias -->
-            </div>
+
         </div>
     </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="scripts/index.js"></script>
 </body>
 
