@@ -430,8 +430,8 @@ input:checked+.slider::before {
   bottom: 20px;
   left: 20px;
   padding: 10px 14px;
-  background: white;
+  background: #F4F4F4;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #ccc;
   cursor: pointer;
 }
