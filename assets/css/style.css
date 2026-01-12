@@ -71,8 +71,8 @@ body {
   grid-column: 3;
   grid-row: 1 / 3;
   /* ocupa linha 1 e linha 2 */
-  background-color: purple;
-  /* mude a cor depois */
+ display: flex;
+  flex-direction: column;
 }
 
 .dashboard>div {
@@ -441,7 +441,7 @@ input:checked+.slider::before {
 /* FORECAST */
 .forecast {
   display: flex;
-  padding: 15px 15px;
+  padding: 15px;
   
 }
 
@@ -472,4 +472,51 @@ input:checked+.slider::before {
   background: var(--principal-light-background-font-color);
 
   border-radius: 2px;
+}
+
+.container-forecast {
+  display: flex;
+  gap: 12px;
+  padding: 15px;
+  flex-direction: column;
+   flex: 1;              /* 🔑 ocupa o resto da altura */
+  overflow-y: auto;
+}
+
+.day-weather {
+  display: flex;
+  gap: 10px;
+  background-color: var(--light-background-color);
+  width: 100%;
+  height: 55px;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  justify-content: space-between;
+   align-items: center;
+     border-radius: 13px;
+}
+
+
+.day-weather img {
+  width: 45px;
+}
+
+
+.day-weather p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--legend-light-background-font-color);
+}
+
+.day-weather p:nth-child(2) {
+  font-weight: 600px;
+  
+}
+
+.day-weather h3 {
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark-box-background-color);
 }

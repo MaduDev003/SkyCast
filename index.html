@@ -47,9 +47,9 @@
         <main>
             <div class="dashboard">
                 <div class="selected-weather">
-                 <div class="date">
+                    <div class="date">
                         <p>Clima atual</p>
-                    </div> 
+                    </div>
 
                     <div class="main-weather">
                         <div class="weather-container">
@@ -90,10 +90,13 @@
 
                 <div class="weather-preview">
                     <div class="forecast">
-                        <ul>
-                            <li class="active">Hoje</li>
-                            <li>Semanal</li>
+                        <ul onclick="selectForecast(event)">
+                            <li class="active" data-type="today">Hoje</li>
+                            <li data-type="weekly">Semanal</li>
                         </ul>
+                    </div>
+                    <div id="container-forecast" class="container-forecast">
+                        <!-- Previsão do tempo será inserida aqui dinamicamente -->
                     </div>
                 </div>
 

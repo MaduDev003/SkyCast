@@ -172,5 +172,60 @@ function graphicTemperature() {
 }
 
 
+function selectForecast(event) {
+  const option = event.target.closest('li');
+  if (!option) return;
+
+  document
+    .querySelectorAll('.forecast ul li')
+    .forEach(item => item.classList.remove('active'));
+
+  option.classList.add('active');
+
+ renderForecastData(option.dataset.type);
+
+}
+
+
+function renderForecastData(forecastType) {
+  const container = document.getElementById('container-forecast');
+  container.innerHTML = ''; 
+
+  let data = [];
+
+  if (forecastType === 'today') {
+    //TODO: será substituido por request
+    data = [
+      { time: '15:00', temp: '22', icon: 'rain-weather.png' },
+      { time: '18:00', temp: '21', icon: 'rain-weather.png' },
+      { time: '21:00', temp: '20', icon: 'rain-weather.png' },
+    ];
+  } else {
+     //TODO: será substituido por request
+    data = [
+      { time: '12/03', temp: '22', icon: 'rain-weather.png' },
+      { time: '14/03', temp: '21', icon: 'rain-weather.png' },
+      { time: '15/03', temp: '20', icon: 'rain-weather.png' },
+      { time: '16/03', temp: '20', icon: 'rain-weather.png' },
+    ];
+  }
+
+  data.forEach(item => {
+    const section = document.createElement('section');
+
+    section.innerHTML = `
+      <div class="day-weather">
+        <p>${item.time}</p>
+        <img src="assets/${item.icon}" alt="clima" />
+        <h3>${item.temp} C°</h3>
+      </div>
+    `;
+
+    container.appendChild(section);
+  });
+}
+
+
 graphicTemperature();
 initClearButton();
+renderForecastData('today');
