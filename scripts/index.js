@@ -53,7 +53,6 @@ function initClearButton() {
     });
 }
 
-
 function changeTheme(event) {
     const isDark = event.target.checked;
 
@@ -156,7 +155,13 @@ function graphicTemperature() {
         data: data,
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    suggestedMin: 20,
+                    suggestedMax: 32
+                }
+            }
         }
     };
 

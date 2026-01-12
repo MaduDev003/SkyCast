@@ -51,6 +51,8 @@ body {
   grid-column: 1 / 3;
   grid-row: 1;
   background-color: black;
+
+  padding:5px;
 }
 
 
@@ -369,8 +371,9 @@ input:checked+.slider::before {
 
 .weather-container div {
   margin: 5px 0;
-
 }
+
+
 
 .weather-info p {
   color: var(--dark-box-background-color);
@@ -434,4 +437,39 @@ input:checked+.slider::before {
   border-radius: 8px;
   border: 1px solid #ccc;
   cursor: pointer;
+}
+/* FORECAST */
+.forecast {
+  display: flex;
+  padding: 15px 15px;
+  
+}
+
+.forecast ul {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.forecast ul li {
+  position: relative;
+   padding-bottom: 2px;
+  list-style: none;
+  font-family:'Montserrat', sans-serif ;
+  font-size: 15px;
+  font-weight: 400;
+  color: var( --legend-light-background-font-color);
+}
+.forecast ul li.active::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: -6px; 
+
+  width: 100%;
+  height: 2px;
+  background: var(--principal-light-background-font-color);
+
+  border-radius: 2px;
 }
