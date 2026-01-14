@@ -119,15 +119,15 @@ function renderForecastData(forecastType) {
 
     const data = forecastType === 'today'
         ? [
-            { time: '15:00', temp: '22', icon: 'rain-weather.png' },
-            { time: '18:00', temp: '21', icon: 'rain-weather.png' },
-            { time: '21:00', temp: '20', icon: 'rain-weather.png' },
+            { time: '15:00', temp: '22', icon: 'rain.svg' },
+            { time: '18:00', temp: '21', icon: 'hail.svg' },
+            { time: '21:00', temp: '20', icon: 'wind.svg' },
         ]
         : [
-            { time: '12/03', temp: '22', icon: 'rain-weather.png' },
-            { time: '14/03', temp: '21', icon: 'rain-weather.png' },
-            { time: '15/03', temp: '20', icon: 'rain-weather.png' },
-            { time: '16/03', temp: '20', icon: 'rain-weather.png' },
+            { time: '12/03', temp: '22', icon: 'rain.svg' },
+            { time: '14/03', temp: '21', icon: 'hail.svg' },
+            { time: '15/03', temp: '20', icon: 'wind.svg' },
+            { time: '16/03', temp: '20', icon: 'rain.svg' },
         ];
 
     data.forEach(item => {
@@ -135,7 +135,7 @@ function renderForecastData(forecastType) {
         section.classList.add('day-weather');
         section.innerHTML = `
             <p>${item.time}</p>
-            <img src="assets/${item.icon}" alt="clima">
+            <img src="assets/weather-icons/${item.icon}" alt="clima">
             <h3>${item.temp} °C</h3>
         `;
         container.appendChild(section);
