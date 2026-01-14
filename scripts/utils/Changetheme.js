@@ -72,6 +72,9 @@ function applyUITheme(theme) {
     el.iconsSvg.forEach(item => item.style.color = styles.legend);
     el.descriptions.forEach(item => item.style.color = styles.main);
 
+    el.searchInput.style.backgroundColor = styles.box;
+    el.searchInput.style.color = styles.main; 
+
     if (el.dayWeather) {
         el.dayWeather.forEach(e => {
             e.style.backgroundColor = styles.bg; 

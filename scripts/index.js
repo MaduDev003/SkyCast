@@ -150,3 +150,6 @@ setTheme(currentTheme);
 graphicTemperature();
 initClearButton();
 renderForecastData('today');
+
+
+/* add o lance de carregando */
