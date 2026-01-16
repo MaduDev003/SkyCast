@@ -1,4 +1,5 @@
-import { applyUITheme } from "./utils/Changetheme.js";
+import { applyUITheme, updateToggleIcons } from "./utils/Changetheme.js";
+import { searchLocationCordinates } from './services/geocoding.js';
 
 /* ================= CONFIG ================= */
 const MAP_LIGHT_THEME = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png';
@@ -55,29 +56,6 @@ function changeTheme(event) {
     setTheme(theme);
 }
 
-function updateToggleIcons(isDark) {
-    const selectedTheme = document.getElementById("selected-theme");
-
-    selectedTheme.src = isDark
-        ? "assets/icons/moon.svg"
-        : "assets/icons/sun.svg";
-
-    selectedTheme.alt = isDark
-        ? "ícone da tela escura"
-        : "ícone da tela clara";
-}
-
-
-/* ================= UI ================= */
-function initClearButton() {
-    const input = document.getElementById("search");
-    const clearBtn = document.getElementById("clear-btn");
-
-    clearBtn.addEventListener("click", () => {
-        input.value = "";
-        input.focus();
-    });
-}
 
 function graphicTemperature() {
     const labels = ['06h', '09h', '12h', '15h', '18h', '21h'];
@@ -143,13 +121,17 @@ function renderForecastData(forecastType) {
     applyUITheme(currentTheme);
 }
 
+searchLocationCordinates((lat, lon) => {
+  console.log("Usuário escolheu:", lat, lon);
+});
+
 /* ================= INIT ================= */
 document.getElementById("theme-switch").addEventListener("change", changeTheme);
 document.querySelector('.forecast ul').addEventListener('click', selectForecast);
-setTheme(currentTheme);   
+setTheme(currentTheme); 
 graphicTemperature();
-initClearButton();
 renderForecastData('today');
 
 
-/* add o lance de carregando */
+
+
