@@ -81,8 +81,8 @@ body {
   flex-direction: column;
 
   height: 100%;
-  min-height: 0;       /* 🔥 ESSENCIAL */
-  overflow: hidden;   /* 🔥 corta excesso */
+  min-height: 0;       
+  overflow: visible;
 }
 .dashboard>div {
   border-radius: 15px;
@@ -428,6 +428,7 @@ input:checked+.slider::before {
 .forecast {
   display: flex;
   padding: 15px;
+  overflow-y: auto;
 
 }
 
@@ -481,24 +482,23 @@ input:checked+.slider::before {
   background-color: inherit;
   width: 100%;
   height: 70px;
-  padding: 0px 10px;
+  padding: 0 10px;
   box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
   border-radius: 13px;
 
   transition:
+    height 0.25s ease,
     background-color 0.2s ease,
     transform 0.15s ease,
     box-shadow 0.15s ease;
-  transform-origin: center;
-
 }
+
 
 .weather-icon {
   width: 50px;
 }
-
 
 .day-weather:hover,
 .day-weather:focus-visible {
@@ -506,6 +506,7 @@ input:checked+.slider::before {
   background-color: var(--hover-bg);
   cursor: pointer;
   opacity: 0.8;
+  
 }
 
 
