@@ -1,64 +1,46 @@
-/* ================= SEARCH LOCATION ================= */
-export async function searchLocationCordinates() {
-  try {
-    const input = document.getElementById("search");
-    const container = document.getElementById("search-suggestions");
-    const clearBtn = document.getElementById("clear-btn");
+export function searchLocationCordinates(onSelect) {
+  const input = document.getElementById("search");
+  const container = document.getElementById("search-suggestions");
+  const clearBtn = document.getElementById("clear-btn");
 
-    if (!input || !container) throw new Error("Elementos de busca não encontrados");
+  if (!input || !container) throw new Error("Elementos de busca não encontrados");
 
-    if (clearBtn) {
-      clearBtn.addEventListener("click", () => clearLocationInput(input, container));
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => clearLocationInput(input, container));
+  }
+
+  document.addEventListener("click", (e) => {
+    if (!input.contains(e.target) && !container.contains(e.target)) {
+      clearLocationInput(input, container);
+    }
+  });
+
+  input.addEventListener("input", async () => {
+    const value = input.value.trim();
+    if (!value) {
+      clearSuggestions(container);
+      return;
     }
 
-    document.addEventListener("click", (e) => {
-      if (!input.contains(e.target) && !container.contains(e.target)) {
-        clearLocationInput(input, container);
-      }
-    });
+    const results = await getLocation(value);
+    renderSuggestions(results, container, input, onSelect);
+  });
 
-    return new Promise((resolve, reject) => {
-      input.addEventListener("input", async () => {
-        try {
-          const value = input.value.trim();
-          if (!value) {
-            clearSuggestions(container);
-            return;
-          }
+  input.addEventListener("keydown", async (e) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
 
-          const results = await getLocation(value);
-          renderSuggestions(results, container, input, resolve);
-        } catch (err) {
-          reject(err);
-        }
-      });
+    const value = input.value.trim();
+    if (!value) return;
 
-      input.addEventListener("keydown", async (e) => {
-        if (e.key !== "Enter") return;
-        e.preventDefault();
-
-        try {
-          const value = input.value.trim();
-          if (!value) return;
-
-          const results = await getLocation(value, 1);
-          if (results.length) {
-            resolve({ lat: results[0].latitude, lon: results[0].longitude });
-          }
-
-          clearSuggestions(container);
-        } catch (err) {
-          reject(err);
-        }
-      });
-    });
-  } catch (err) {
-    console.error("Erro na searchLocationCordinates:", err);
-    return { lat: null, lon: null };
-  }
+    const results = await getLocation(value, 1);
+    if (results.length) {
+      clearSuggestions(container);
+      onSelect({ lat: results[0].latitude, lon: results[0].longitude });
+    }
+  });
 }
 
-/* ================= API ================= */
 async function getLocation(locationName, limit = 5) {
   try {
     const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
@@ -76,7 +58,6 @@ async function getLocation(locationName, limit = 5) {
   }
 }
 
-/* ================= HELPERS ================= */
 function uniqueByCountry(results) {
   const map = new Map();
   results.forEach(item => {
@@ -87,7 +68,7 @@ function uniqueByCountry(results) {
   return [...map.values()];
 }
 
-function renderLocationItem(item, container, input, resolve) {
+function renderLocationItem(item, container, input, onSelect) {
   if (!item.country_code) return;
 
   const flagUrl = `https://flagcdn.com/w20/${item.country_code.toLowerCase()}.png`;
@@ -107,13 +88,13 @@ function renderLocationItem(item, container, input, resolve) {
   div.addEventListener("click", () => {
     input.value = item.name;
     clearSuggestions(container);
-    resolve({ lat: item.latitude, lon: item.longitude });
+    onSelect({ lat: item.latitude, lon: item.longitude });
   });
 
   container.appendChild(div);
 }
 
-function renderSuggestions(results, container, input, resolve) {
+function renderSuggestions(results, container, input, onSelect) {
   container.innerHTML = "";
   const uniqueResults = uniqueByCountry(results);
 
@@ -123,7 +104,7 @@ function renderSuggestions(results, container, input, resolve) {
     return;
   }
 
-  uniqueResults.forEach(item => renderLocationItem(item, container, input, resolve));
+  uniqueResults.forEach(item => renderLocationItem(item, container, input, onSelect));
   container.style.display = "block";
 }
 

@@ -83,7 +83,7 @@ function getWeatherIconByCode(code) {
 }
 
 function formatDate(date) {
-  const [year, month, day] = date.split("-");
+  const [_, month, day] = date.split("-");
   return `${day}/${month}`;
 }
 

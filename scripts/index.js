@@ -113,7 +113,7 @@ function showCurrentWeather(data){
     temperatureElement.textContent  = currentWeather.temp + " C°";
     windSpeedElement.textContent  = currentWeather.wind_speed + " KM/H";
     uvIndexElement.textContent = currentWeather.uv_index;
-    chanceOfRainElement.textContent = currentWeather.rain + "%";
+    chanceOfRainElement.textContent = (currentWeather.rain * 100) + "%";
     currentTemperatureElement.textContent = currentWeather.feels_like + " C°";
     subtitleDate.textContent = currentWeather.time;
    
@@ -127,7 +127,6 @@ async function loadForecast(lat, lon) {
 
     TODAY_FORECAST = getTodayForecast(forecastData);
     showCurrentWeather(TODAY_FORECAST);
-    console.log(TODAY_FORECAST)
     WEEK_FORECAST = getWeekForecast(forecastData);
 
     if (TODAY_FORECAST.length) {
@@ -140,26 +139,23 @@ async function loadForecast(lat, lon) {
     console.error("Erro ao carregar forecast:", err);
   }
 }
-
-
-
-/* ================= INIT ================= */
-async function initApp() {
-  setTheme(currentTheme);
-  graphicTemperature();
-  getCurrentTime();
-
-  await loadForecast(LAT, LON);
-  try {
-    const { lat, lon } = await searchLocationCordinates();
+async function updateLocation({ lat, lon }) {
     if (!lat || !lon) return;
     LAT = lat;
     LON = lon;
+    map.setView([lat, lon], DEFAULT_ZOOM);
     await loadForecast(LAT, LON);
-     map.setView([lat, lon], DEFAULT_ZOOM);
-  } catch {
-    console.error("Erro ao obter localização.");
-  }
+}
+
+
+searchLocationCordinates(async ({ lat, lon }) => updateLocation({ lat, lon }));
+
+async function initApp() {
+    setTheme(currentTheme);
+    graphicTemperature();
+    getCurrentTime();
+    await loadForecast(LAT, LON);         
+    searchLocationCordinates(updateLocation);
 }
 
 
