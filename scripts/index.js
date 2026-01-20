@@ -1,5 +1,6 @@
-import { applyUITheme, updateToggleIcons } from "./utils/Changetheme.js";
+import { applyUITheme, updateToggleIcons } from "./utils/changetheme.js";
 import { searchLocationCordinates } from "./services/geocoding.js";
+import { applyMapTheme, changeMapView } from "./services/map.js";
 import {
     getLocationForecast,
     getTodayForecast,
@@ -8,49 +9,17 @@ import {
 } from "./services/forecast.js";
 
 /* ================= CONFIG ================= */
-const MAP_LIGHT_THEME =
-    "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png";
-const MAP_DARK_THEME =
-    "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png";
 
 let LAT = -23.5475;
 let LON = -46.63611;
-const DEFAULT_POSITION = [LAT, LON];
-const DEFAULT_ZOOM = 10;
-
 let currentTheme = "light";
-let tileLayer;
+
 
 /* ================= FORECAST STATE ================= */
 let TODAY_FORECAST = [];
 let WEEK_FORECAST = [];
 let ACTIVE_FORECAST = "today";
 
-/* ================= MAP ================= */
-const map = L.map("map").setView(DEFAULT_POSITION, DEFAULT_ZOOM);
-
-const worldBounds = L.latLngBounds(
-    L.latLng(-90, -180),
-    L.latLng(90, 180)
-);
-map.setMaxBounds(worldBounds);
-
-function createTileLayer(url) {
-    return L.tileLayer(url, {
-        maxZoom: 19,
-        minZoom: 3,
-        noWrap: true,
-        bounds: worldBounds,
-        attribution: "&copy; OpenStreetMap, &copy; CARTO"
-    });
-}
-
-function applyMapTheme(theme) {
-    const url = theme === "dark" ? MAP_DARK_THEME : MAP_LIGHT_THEME;
-    if (tileLayer) map.removeLayer(tileLayer);
-    tileLayer = createTileLayer(url);
-    tileLayer.addTo(map);
-}
 
 /* ================= THEME ================= */
 function setTheme(theme) {
@@ -98,7 +67,7 @@ function getCurrentTime() {
     return `${hour}:00`;
 
 }
-function showCurrentWeather(data){
+function showCurrentWeather(data) {
     let temperatureElement = document.getElementById("temperature");
     let weatherDescriptionElement = document.getElementById("weather_description");
     let windSpeedElement = document.getElementById("wind_speed");
@@ -110,40 +79,40 @@ function showCurrentWeather(data){
     const currentTime = getCurrentTime();
     const currentWeather = data.find(entry => entry.time === currentTime);
 
-    temperatureElement.textContent  = currentWeather.temp + " C°";
-    windSpeedElement.textContent  = currentWeather.wind_speed + " KM/H";
+    temperatureElement.textContent = currentWeather.temp + " C°";
+    windSpeedElement.textContent = currentWeather.wind_speed + " KM/H";
     uvIndexElement.textContent = currentWeather.uv_index;
-    chanceOfRainElement.textContent = (currentWeather.rain * 100) + "%";
+    chanceOfRainElement.textContent = currentWeather.rain + "%";
     currentTemperatureElement.textContent = currentWeather.feels_like + " C°";
     subtitleDate.textContent = currentWeather.time;
-   
-    
+
+
 
 }
 
 async function loadForecast(lat, lon) {
-  try {
-    const forecastData = await getLocationForecast(lat, lon);
+    try {
+        const forecastData = await getLocationForecast(lat, lon);
 
-    TODAY_FORECAST = getTodayForecast(forecastData);
-    showCurrentWeather(TODAY_FORECAST);
-    WEEK_FORECAST = getWeekForecast(forecastData);
+        TODAY_FORECAST = getTodayForecast(forecastData);
+        showCurrentWeather(TODAY_FORECAST);
+        WEEK_FORECAST = getWeekForecast(forecastData);
 
-    if (TODAY_FORECAST.length) {
-      renderForecastWeather(
-        ACTIVE_FORECAST === "today" ? TODAY_FORECAST : WEEK_FORECAST,
-        currentTheme
-      );
+        if (TODAY_FORECAST.length) {
+            renderForecastWeather(
+                ACTIVE_FORECAST === "today" ? TODAY_FORECAST : WEEK_FORECAST,
+                currentTheme
+            );
+        }
+    } catch (err) {
+        console.error("Erro ao carregar forecast:", err);
     }
-  } catch (err) {
-    console.error("Erro ao carregar forecast:", err);
-  }
 }
 async function updateLocation({ lat, lon }) {
     if (!lat || !lon) return;
     LAT = lat;
     LON = lon;
-    map.setView([lat, lon], DEFAULT_ZOOM);
+    changeMapView(lat, lon)
     await loadForecast(LAT, LON);
 }
 
@@ -154,7 +123,7 @@ async function initApp() {
     setTheme(currentTheme);
     graphicTemperature();
     getCurrentTime();
-    await loadForecast(LAT, LON);         
+    await loadForecast(LAT, LON);
     searchLocationCordinates(updateLocation);
 }
 
@@ -185,5 +154,10 @@ document
             currentTheme
         );
     });
+
+document.getElementById("recenter").addEventListener("click", () => {
+    changeMapView(LAT, LON);
+});
+
 
 initApp();
