@@ -1,15 +1,9 @@
-import { applyUITheme } from "../utils/changetheme.js";
 import { weatherCodeToIcon } from "../mappings/weatherCodeToIcon.js";
-import { formatDate } from "../utils/formatDate.js";
+import { formatDate, getCurrentTime } from "../utils/formatDate.js";
+import { getLocationForecast } from "../api/forecastApi.js";
+import { applyUITheme } from "../utils/changetheme.js";
 
-async function getLocationForecast(lat, lon) {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,apparent_temperature,precipitation_probability,weather_code,wind_speed_10m,uv_index&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,uv_index_max,weather_code&timezone=auto&forecast_days=7`;
-
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Erro ao buscar previsão do tempo");
-
-  return res.json();
-}
+/* ================= MOUNTERS ================= */
 
 function mountTodayForecast(data) {
   if (!data.hourly?.time) return [];
@@ -40,6 +34,7 @@ function mountWeekForecast(data) {
   return data.daily.time.map((day, i) => {
     const max = data.daily.temperature_2m_max[i];
     const min = data.daily.temperature_2m_min[i];
+
     return {
       date: day,
       temp: Math.round((max + min) / 2),
@@ -51,6 +46,22 @@ function mountWeekForecast(data) {
   });
 }
 
+/* ================= LOAD ================= */
+
+async function loadForecast(lat, lon) {
+  const forecastData = await getLocationForecast(lat, lon);
+
+  const todayForecast = mountTodayForecast(forecastData);
+  const weekForecast = mountWeekForecast(forecastData);
+
+  return {
+    todayForecast,
+    weekForecast
+  };
+}
+
+/* ================= RENDER ================= */
+
 function renderForecastWeather(data, theme) {
   const container = document.getElementById("container-forecast");
   container.innerHTML = "";
@@ -60,6 +71,7 @@ function renderForecastWeather(data, theme) {
   data.forEach(item => {
     const section = document.createElement("section");
     const weatherIcon = weatherCodeToIcon[item.weather_code] || "wind.svg";
+
     section.classList.add("day-weather");
 
     section.innerHTML = `
@@ -74,11 +86,31 @@ function renderForecastWeather(data, theme) {
   applyUITheme(theme);
 }
 
+function renderCurrentWeather(data) {
+  const temperatureElement = document.getElementById("temperature");
+  const windSpeedElement = document.getElementById("wind_speed");
+  const uvIndexElement = document.getElementById("uv_index");
+  const chanceOfRainElement = document.getElementById("chance_of_rain");
+  const currentTemperatureElement = document.getElementById("current_temperature");
+  const subtitleDate = document.getElementById("date");
 
+  const currentTime = getCurrentTime();
+  const currentWeather = data.find(entry => entry.time === currentTime);
+
+  if (!currentWeather) return;
+
+  temperatureElement.textContent = `${currentWeather.temp} C°`;
+  windSpeedElement.textContent = `${currentWeather.wind_speed} KM/H`;
+  uvIndexElement.textContent = currentWeather.uv_index;
+  chanceOfRainElement.textContent = `${currentWeather.rain}%`;
+  currentTemperatureElement.textContent = `${currentWeather.feels_like} C°`;
+  subtitleDate.textContent = currentWeather.time;
+}
+
+/* ================= EXPORTS ================= */
 
 export {
-  getLocationForecast,
-  mountTodayForecast,
-  mountWeekForecast,
-  renderForecastWeather
+  loadForecast,
+  renderForecastWeather,
+  renderCurrentWeather
 };

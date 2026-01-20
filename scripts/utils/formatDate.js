@@ -3,6 +3,14 @@ function formatDate(date) {
   return `${day}/${month}`;
 }
 
+function getCurrentTime() {
+    const now = new Date();
+    const hour = now.getHours().toString().padStart(2, '0');
+    return `${hour}:00`;
+
+}
+
 export {
-    formatDate
+    formatDate,
+    getCurrentTime
 }
