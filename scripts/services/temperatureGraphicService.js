@@ -1,7 +1,7 @@
 let temperatureChart = null;
 
 
-function graphicTemperature(hours, temperatures) {
+function renderGraphicTemperature(hours, temperatures) {
     const ctx = document.getElementById('myChart');
 
     // Se já existir gráfico, destrói
@@ -28,6 +28,18 @@ function graphicTemperature(hours, temperatures) {
     });
 }
 
+function mountGraphicTemperatureData(todayForecast){
+    const hours = [];
+    const temperatures = [];
+    for(const forecast of todayForecast){
+        console.log(forecast)
+        hours.push(forecast.time);
+        temperatures.push(forecast.temp);
+    }
+
+    renderGraphicTemperature(hours, temperatures);
+}
+
 export {
-    graphicTemperature
+    mountGraphicTemperatureData
 };

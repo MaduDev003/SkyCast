@@ -1,13 +1,13 @@
 import { applyUITheme, updateToggleIcons } from "./utils/changetheme.js";
-import { searchLocationCordinates } from "./services/geocoding.js";
-import { applyMapTheme, changeMapView } from "./services/map.js";
-import { graphicTemperature } from "./services/temperatureGraphic.js";
+import { searchLocationCoordinates } from "./services/geocodingService.js";
+import { applyMapTheme, changeMapView } from "./services/mapService.js";
+import { mountGraphicTemperatureData } from "./services/temperatureGraphicService.js";
 import {
     getLocationForecast,
-    getTodayForecast,
-    getWeekForecast,
+    mountTodayForecast,
+    mountWeekForecast,
     renderForecastWeather
-} from "./services/forecast.js";
+} from "./services/forecastService.js";
 
 /* ================= CONFIG ================= */
 
@@ -47,7 +47,7 @@ function getCurrentTime() {
     return `${hour}:00`;
 
 }
-function showCurrentWeather(data) {
+function mountCurrentWeather(data) {
     let temperatureElement = document.getElementById("temperature");
     let weatherDescriptionElement = document.getElementById("weather_description");
     let windSpeedElement = document.getElementById("wind_speed");
@@ -74,11 +74,10 @@ async function loadForecast(lat, lon) {
     try {
         const forecastData = await getLocationForecast(lat, lon);
 
-        TODAY_FORECAST = getTodayForecast(forecastData);
-        showCurrentWeather(TODAY_FORECAST);
-        /*  graphicTemperature(); */
+        TODAY_FORECAST = mountTodayForecast(forecastData);
+        mountCurrentWeather(TODAY_FORECAST);
         mountGraphicTemperatureData(TODAY_FORECAST);
-        WEEK_FORECAST = getWeekForecast(forecastData);
+        WEEK_FORECAST = mountWeekForecast(forecastData);
 
         if (TODAY_FORECAST.length) {
             renderForecastWeather(
@@ -91,17 +90,7 @@ async function loadForecast(lat, lon) {
     }
 }
 
-function mountGraphicTemperatureData(todayForecast){
-    const hours = [];
-    const temperatures = [];
-    for(const forecast of todayForecast){
-        console.log(forecast)
-        hours.push(forecast.time);
-        temperatures.push(forecast.temp);
-    }
 
-    graphicTemperature(hours, temperatures);
-}
 async function updateLocation({ lat, lon }) {
     if (!lat || !lon) return;
     LAT = lat;
@@ -111,13 +100,13 @@ async function updateLocation({ lat, lon }) {
 }
 
 
-searchLocationCordinates(async ({ lat, lon }) => updateLocation({ lat, lon }));
+searchLocationCoordinates(async ({ lat, lon }) => updateLocation({ lat, lon }));
 
 async function initApp() {
     setTheme(currentTheme);
     getCurrentTime();
     await loadForecast(LAT, LON);
-    searchLocationCordinates(updateLocation);
+    searchLocationCoordinates(updateLocation);
 }
 
 
