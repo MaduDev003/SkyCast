@@ -61,7 +61,7 @@ async function updateLocation({ lat, lon }) {
 
   updateMapView(state.location, state.theme);
 
-  const { todayForecast, weekForecast } = await loadForecast(lat, lon);
+  const { todayForecast, weekForecast } = await loadForecast(state.location);
 
   state.forecast.today = todayForecast;
   state.forecast.week = weekForecast;
@@ -74,8 +74,7 @@ async function updateLocation({ lat, lon }) {
 async function initApp() {
   setTheme(state.theme, state);
 
-  const { lat, lon } = state.location;
-  const { todayForecast, weekForecast } = await loadForecast(lat, lon);
+  const { todayForecast, weekForecast } = await loadForecast(state.location);
 
   state.forecast.today = todayForecast;
   state.forecast.week = weekForecast;

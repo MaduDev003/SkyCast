@@ -45,8 +45,8 @@ function mountWeekForecast(data) {
   });
 }
 
-async function loadForecast(lat, lon) {
-  const forecastData = await getLocationForecast(lat, lon);
+async function loadForecast(location) {
+  const forecastData = await getLocationForecast(location);
 
   const todayForecast = mountTodayForecast(forecastData);
   const weekForecast = mountWeekForecast(forecastData);
