@@ -72,7 +72,7 @@ function renderForecastWeather(data, theme) {
 
     section.innerHTML = `
       <p>${isWeek ? formatDate(item.date) : item.time}</p>
-      <img src="assets/weather-icons/${weatherIcon}" alt="clima">
+      <img src="assets/icons/weather-icons/${weatherIcon}" alt="ícone de clima">
       <h3>${item.temp ?? "--"} °C</h3>
     `;
 
