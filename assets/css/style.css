@@ -468,7 +468,7 @@ input:checked+.slider::before {
 }
 
 .container-forecast {
-  position: relative;
+  
   display: flex;
   gap: 12px;
   padding: 15px;
@@ -477,6 +477,11 @@ input:checked+.slider::before {
   overflow: hidden;
   flex: 1;
   overflow-y: auto;
+}
+
+.container-forecast, .graphic{
+position: relative;
+overflow: hidden;
 }
 .day-weather {
   display: flex;
@@ -725,6 +730,10 @@ input:checked+.slider::before {
   gap: 8px;
 
   pointer-events: none;
+}
+
+.loading.hidde {
+  display: none;
 }
 .loader {
   width: 50px;

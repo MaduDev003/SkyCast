@@ -1,10 +1,10 @@
+import {removeLoading} from '../utils/loading.js';
 let temperatureChart = null;
 
 
 function renderGraphicTemperature(hours, temperatures) {
     const ctx = document.getElementById('myChart');
 
-    // Se já existir gráfico, destrói
     if (temperatureChart) {
         temperatureChart.destroy();
     }
@@ -29,6 +29,7 @@ function renderGraphicTemperature(hours, temperatures) {
 }
 
 function mountGraphicTemperatureData(todayForecast){
+    removeLoading();
     const hours = [];
     const temperatures = [];
     for(const forecast of todayForecast){

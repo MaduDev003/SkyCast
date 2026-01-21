@@ -53,21 +53,9 @@ function handleRecenterClick() {
   updateMapView(state.location, state.theme);
 }
 
-const loading = document.getElementById("loading");
-
-function showLoading() {
-  loading.classList.add("active");
-}
-
-function hideLoading() {
-  loading.classList.remove("active");
-}
-
 
 async function updateLocation({ lat, lon }) {
   if (!lat || !lon) return;
-
-  showLoading();
 
   try {
     state.location.lat = lat;
@@ -83,8 +71,8 @@ async function updateLocation({ lat, lon }) {
     renderCurrentWeather(todayForecast);
     renderForecastWeather(getActiveForecast(), state.theme);
     mountGraphicTemperatureData(todayForecast);
-  } finally {
-    hideLoading();
+  } catch(error){
+    throw new Error("Error updating location: " + error.message);
   }
 }
 
