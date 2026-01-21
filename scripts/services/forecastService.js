@@ -1,9 +1,8 @@
 import { weatherCodeToIcon } from "../mappings/weatherCodeToIcon.js";
 import { formatDate, getCurrentTime } from "../utils/formatDate.js";
 import { getLocationForecast } from "../api/forecastApi.js";
-import { applyUITheme } from "../utils/changetheme.js";
+import { applyUITheme } from "../utils/changetheme.js"
 
-/* ================= MOUNTERS ================= */
 
 function mountTodayForecast(data) {
   if (!data.hourly?.time) return [];
@@ -46,8 +45,6 @@ function mountWeekForecast(data) {
   });
 }
 
-/* ================= LOAD ================= */
-
 async function loadForecast(lat, lon) {
   const forecastData = await getLocationForecast(lat, lon);
 
@@ -60,7 +57,6 @@ async function loadForecast(lat, lon) {
   };
 }
 
-/* ================= RENDER ================= */
 
 function renderForecastWeather(data, theme) {
   const container = document.getElementById("container-forecast");
@@ -107,7 +103,6 @@ function renderCurrentWeather(data) {
   subtitleDate.textContent = currentWeather.time;
 }
 
-/* ================= EXPORTS ================= */
 
 export {
   loadForecast,

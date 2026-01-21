@@ -1,6 +1,7 @@
-import { applyUITheme, updateToggleIcons } from "./utils/changetheme.js";
+import { CONFIG } from "./config.js";
 import { searchLocationCoordinates } from "./services/geocodingService.js";
-import { applyMapTheme, changeMapView } from "./services/mapService.js";
+import { changeMapView } from "./services/mapService.js";
+import { setTheme } from "./utils/changetheme.js";
 import {
   loadForecast,
   renderForecastWeather,
@@ -10,10 +11,10 @@ import { mountGraphicTemperatureData } from "./services/temperatureGraphicServic
 
 const state = {
   location: {
-    lat: -23.5475,
-    lon: -46.63611
+    lat: CONFIG.DEFAULT_LOCATION.lat,
+    lon: CONFIG.DEFAULT_LOCATION.lon
   },
-  theme: "light",
+  theme: CONFIG.DEFAULT_THEME,
   forecast: {
     today: [],
     week: []
@@ -21,25 +22,34 @@ const state = {
   activeForecast: "today"
 };
 
-function setTheme(theme) {
-  state.theme = theme;
-
-  applyUITheme(theme);
-  applyMapTheme(theme);
-  updateToggleIcons(theme === "dark");
-
-  if (state.forecast.today.length) {
-    renderForecastWeather(
-      state.activeForecast === "today"
-        ? state.forecast.today
-        : state.forecast.week,
-      theme
-    );
-  }
+function getActiveForecast() {
+  return state.activeForecast === "today"
+    ? state.forecast.today
+    : state.forecast.week;
 }
 
 function changeTheme(event) {
-  setTheme(event.currentTarget.checked ? "dark" : "light");
+  const theme = event.currentTarget.checked ? "dark" : "light";
+  setTheme(theme, state);
+}
+
+function handleForecastClick(event) {
+  const option = event.target.closest("li");
+  if (!option) return;
+
+  document.querySelectorAll(".forecast ul li").forEach(li => li.classList.remove("active"));
+  option.classList.add("active");
+
+  const type = option.dataset.type;
+  if (type === state.activeForecast) return;
+
+  state.activeForecast = type;
+  renderForecastWeather(getActiveForecast(), state.theme);
+}
+
+function handleRecenterClick() {
+  const { lat, lon } = state.location;
+  changeMapView(lat, lon);
 }
 
 async function updateLocation({ lat, lon }) {
@@ -56,17 +66,12 @@ async function updateLocation({ lat, lon }) {
   state.forecast.week = weekForecast;
 
   renderCurrentWeather(todayForecast);
-
-  renderForecastWeather(
-    state.activeForecast === "today" ? todayForecast : weekForecast,
-    state.theme
-  );
-
+  renderForecastWeather(getActiveForecast(), state.theme);
   mountGraphicTemperatureData(todayForecast);
 }
 
 async function initApp() {
-  setTheme(state.theme);
+  setTheme(state.theme, state);
 
   const { lat, lon } = state.location;
   const { todayForecast, weekForecast } = await loadForecast(lat, lon);
@@ -75,45 +80,14 @@ async function initApp() {
   state.forecast.week = weekForecast;
 
   renderCurrentWeather(todayForecast);
-  renderForecastWeather(todayForecast, state.theme);
+  renderForecastWeather(getActiveForecast(), state.theme);
   mountGraphicTemperatureData(todayForecast);
 
   searchLocationCoordinates(updateLocation);
 }
 
-
-document
-  .getElementById("theme-switch")
-  .addEventListener("change", changeTheme);
-
-document
-  .querySelector(".forecast ul")
-  .addEventListener("click", event => {
-    const option = event.target.closest("li");
-    if (!option) return;
-
-    document
-      .querySelectorAll(".forecast ul li")
-      .forEach(li => li.classList.remove("active"));
-
-    option.classList.add("active");
-
-    const type = option.dataset.type;
-    if (type === state.activeForecast) return;
-
-    state.activeForecast = type;
-
-    renderForecastWeather(
-      type === "today"
-        ? state.forecast.today
-        : state.forecast.week,
-      state.theme
-    );
-  });
-
-document.getElementById("recenter").addEventListener("click", () => {
-  const { lat, lon } = state.location;
-  changeMapView(lat, lon);
-});
+document.getElementById("theme-switch").addEventListener("change", changeTheme);
+document.querySelector(".forecast ul").addEventListener("click", handleForecastClick);
+document.getElementById("recenter").addEventListener("click", handleRecenterClick);
 
 initApp();

@@ -1,3 +1,6 @@
+import { renderForecastWeather } from "../services/forecastService.js";
+import  {applyMapTheme} from "../services/mapService.js";
+
 function getRootStyles(vars) {
     const root = getComputedStyle(document.documentElement);
     return {
@@ -106,4 +109,22 @@ function updateToggleIcons(isDark) {
         : "ícone da tela clara";
 }
 
-export { applyUITheme, updateToggleIcons };
+function setTheme(theme, state) {
+  state.theme = theme;
+
+  applyUITheme(theme);
+  applyMapTheme(theme);
+  updateToggleIcons(theme === "dark");
+
+  const forecastData =
+    state.activeForecast === "today"
+      ? state.forecast.today
+      : state.forecast.week;
+
+  if (forecastData.length) {
+    renderForecastWeather(forecastData, theme);
+  }
+}
+
+
+export {setTheme, applyUITheme};
