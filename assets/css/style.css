@@ -24,7 +24,7 @@ body {
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
-  padding: 25px;
+  padding: 35px;
   overflow-y: hidden;
   background-color: var(--light-background-color);
   font-family: "Istok Web", sans-serif;
@@ -43,7 +43,7 @@ body {
   grid-template-rows: minmax(220px, auto) 1fr;
   gap: 20px;
 
-  height: calc(100vh - 120px); /* 🔥 LIMITE REAL */
+  height: calc(100vh - 120px); 
   min-height: 0;
 }
 
@@ -468,14 +468,16 @@ input:checked+.slider::before {
 }
 
 .container-forecast {
+  position: relative;
   display: flex;
   gap: 12px;
   padding: 15px;
   flex-direction: column;
+  min-height: 200px;
+  overflow: hidden;
   flex: 1;
   overflow-y: auto;
 }
-
 .day-weather {
   display: flex;
   gap: 10px;
@@ -710,4 +712,48 @@ input:checked+.slider::before {
   margin-right: auto;
 }
   
+}
+
+.loading {
+  position: absolute;
+  inset: 0; 
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  pointer-events: none;
+}
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid #0000;
+  border-right-color: #3888CE;
+  position: relative;
+  animation: l24 1s infinite linear;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: inherit;
+  animation: inherit;
+  animation-duration: 2s;
+}
+.loader:after {
+  animation-duration: 4s;
+}
+@keyframes l24 {
+  100% {transform: rotate(1turn)}
+}
+
+.loading span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: var(--legend-light-background-font-color);
 }

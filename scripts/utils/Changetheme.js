@@ -53,7 +53,9 @@ function getElements() {
         dayWeather: document.querySelectorAll(".day-weather"),
         weatherDescription: document.querySelectorAll(".day-weather p"),
         weatherTemperature: document.querySelectorAll(".day-weather h3"),
-        suggestionsPlaces: document.querySelector(".suggestions")
+        suggestionsPlaces: document.querySelector(".suggestions"),
+
+        loadingSpan: document.getElementById("loader-text"),
     };
 }
 
@@ -95,6 +97,10 @@ function applyUITheme(theme) {
         el.suggestionsPlaces.classList.remove("light", "dark");
         el.suggestionsPlaces.classList.add(theme);
     }
+
+   if (el.loadingSpan) {
+  el.loadingSpan.style.color = styles.legend;
+}
 }
 
 function updateToggleIcons(isDark) {

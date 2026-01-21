@@ -53,23 +53,41 @@ function handleRecenterClick() {
   updateMapView(state.location, state.theme);
 }
 
+const loading = document.getElementById("loading");
+
+function showLoading() {
+  loading.classList.add("active");
+}
+
+function hideLoading() {
+  loading.classList.remove("active");
+}
+
+
 async function updateLocation({ lat, lon }) {
   if (!lat || !lon) return;
 
-  state.location.lat = lat;
-  state.location.lon = lon;
+  showLoading();
 
-  updateMapView(state.location, state.theme);
+  try {
+    state.location.lat = lat;
+    state.location.lon = lon;
 
-  const { todayForecast, weekForecast } = await loadForecast(state.location);
+    updateMapView(state.location, state.theme);
 
-  state.forecast.today = todayForecast;
-  state.forecast.week = weekForecast;
+    const { todayForecast, weekForecast } = await loadForecast(state.location);
 
-  renderCurrentWeather(todayForecast);
-  renderForecastWeather(getActiveForecast(), state.theme);
-  mountGraphicTemperatureData(todayForecast);
+    state.forecast.today = todayForecast;
+    state.forecast.week = weekForecast;
+
+    renderCurrentWeather(todayForecast);
+    renderForecastWeather(getActiveForecast(), state.theme);
+    mountGraphicTemperatureData(todayForecast);
+  } finally {
+    hideLoading();
+  }
 }
+
 
 async function initApp() {
   setTheme(state.theme, state);
