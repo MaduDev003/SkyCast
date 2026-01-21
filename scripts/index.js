@@ -1,6 +1,6 @@
 import { CONFIG } from "./config.js";
 import { searchLocationCoordinates } from "./services/geocodingService.js";
-import { changeMapView } from "./services/mapService.js";
+import { updateMapView } from "./services/mapService.js";
 import { setTheme } from "./utils/changetheme.js";
 import {
   loadForecast,
@@ -31,6 +31,8 @@ function getActiveForecast() {
 function changeTheme(event) {
   const theme = event.currentTarget.checked ? "dark" : "light";
   setTheme(theme, state);
+
+  updateMapView(state.location, theme);
 }
 
 function handleForecastClick(event) {
@@ -48,8 +50,7 @@ function handleForecastClick(event) {
 }
 
 function handleRecenterClick() {
-  const { lat, lon } = state.location;
-  changeMapView(lat, lon);
+  updateMapView(state.location, state.theme);
 }
 
 async function updateLocation({ lat, lon }) {
@@ -58,7 +59,7 @@ async function updateLocation({ lat, lon }) {
   state.location.lat = lat;
   state.location.lon = lon;
 
-  changeMapView(lat, lon);
+  updateMapView(state.location, state.theme);
 
   const { todayForecast, weekForecast } = await loadForecast(lat, lon);
 
