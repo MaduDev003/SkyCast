@@ -133,11 +133,6 @@ function updateLocationHeader(location) {
   h3.innerHTML = `<span>${city},</span> ${suffix}`;
 }
 
-/**
- * Evita:
- * - Recife em estado errado
- * - cidades repetidas do mesmo país
- */
 function uniqueByCountryAndState(results) {
   const map = new Map();
 
