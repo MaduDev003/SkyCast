@@ -1,20 +1,43 @@
-async function getLocationData(locationName, limit = 5) {
-  try {
-    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-      locationName
-    )}&count=${limit}&language=pt&format=json`;
+const BASE_URL = "https://geocoding-api.open-meteo.com/v1/search";
 
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Erro ao buscar localização");
+async function getLocationData(locationName, limit = 5) {
+  if (!locationName) return [];
+
+  try {
+    const params = new URLSearchParams({
+      name: locationName,
+      count: limit,
+      language: "pt",
+      format: "json"
+    });
+
+    const response = await fetch(`${BASE_URL}?${params.toString()}`);
+    if (!response.ok) {
+      throw new Error("Erro ao buscar localização");
+    }
 
     const data = await response.json();
-    return data.results || [];
+    return normalizeResults(data.results || []);
   } catch (error) {
-    console.error("searchLocation error:", error);
+    console.error("getLocationData error:", error);
     return [];
   }
 }
 
-export {
-    getLocationData
+function normalizeResults(results) {
+  return results.map(item => ({
+    name: item.name,
+    latitude: item.latitude,
+    longitude: item.longitude,
+
+    country: item.country,
+    countryCode: item.country_code,
+
+    state: item.admin1 || null,
+    stateCode: item.admin1_code || null,
+
+    timezone: item.timezone || null
+  }));
 }
+
+export { getLocationData };

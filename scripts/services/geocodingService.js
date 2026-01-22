@@ -9,7 +9,6 @@ export function searchLocationCoordinates(onSelect) {
   bindEnterKey(elements, onSelect);
 }
 
-
 function getSearchElements() {
   const input = document.getElementById("search");
   const container = document.getElementById("search-suggestions");
@@ -22,10 +21,8 @@ function getSearchElements() {
   return { input, container, clearBtn };
 }
 
-
 function bindClearButton({ clearBtn, input, container }) {
   if (!clearBtn) return;
-
   clearBtn.addEventListener("click", () =>
     clearLocationInput(input, container)
   );
@@ -42,7 +39,6 @@ function bindOutsideClick({ input, container }) {
 function bindInputSearch({ input, container }, onSelect) {
   input.addEventListener("input", async () => {
     const locationName = input.value.trim();
-
     if (!locationName) {
       clearSuggestions(container);
       return;
@@ -77,7 +73,7 @@ function bindEnterKey({ input, container }, onSelect) {
 function renderSuggestions(results, container, input, onSelect) {
   container.innerHTML = "";
 
-  const uniqueResults = uniqueByCountry(results);
+  const uniqueResults = uniqueByCountryAndState(results);
 
   if (!uniqueResults.length) {
     container.innerHTML = "<p>Nenhum resultado encontrado.</p>";
@@ -93,9 +89,11 @@ function renderSuggestions(results, container, input, onSelect) {
 }
 
 function renderLocationItem(item, container, input, onSelect) {
-  if (!item.country_code) return;
+  if (!item.countryCode) return;
 
-  const flagUrl = `https://flagcdn.com/w20/${item.country_code.toLowerCase()}.png`;
+  const flagUrl = `https://flagcdn.com/w20/${item.countryCode.toLowerCase()}.png`;
+
+  const suffix = item.stateCode || item.countryCode;
 
   const div = document.createElement("div");
   div.classList.add("suggestion-item");
@@ -108,15 +106,14 @@ function renderLocationItem(item, container, input, onSelect) {
         class="suggestion-flag"
       />
       <strong class="city">${item.name}</strong>
-      <span class="country"> - ${item.country}</span>
+      <span class="country"> - ${suffix}</span>
     </div>
   `;
-
 
   div.addEventListener("click", () => {
     input.value = item.name;
     clearSuggestions(container);
-    updateLocationHeader(item)
+    updateLocationHeader(item);
     onSelect({
       lat: item.latitude,
       lon: item.longitude
@@ -126,33 +123,28 @@ function renderLocationItem(item, container, input, onSelect) {
   container.appendChild(div);
 }
 
-function getStateAbbreviation(stateName) {
-  if (!stateName) return "";
+function updateLocationHeader(location) {
+  if (!location || !location.name) return;
 
-  const words = stateName.trim().split(/\s+/); 
-  if (words.length === 1) {
-    return words[0].slice(0, 2).toUpperCase();
-  } else {
-    return words.map(w => w[0].toUpperCase()).join("");
-  }
-}
-
-async function updateLocationHeader(location) {
-  if (!location || !location.name) return; 
   const city = location.name;
-  const stateAbbr = getStateAbbreviation(location.admin1);
-  console.log(city, stateAbbr);
+  const suffix = location.stateCode || location.countryCode || "";
 
   const h3 = document.querySelector(".location h3");
-  h3.innerHTML = `<span>${city},</span> ${stateAbbr}`; 
+  h3.innerHTML = `<span>${city},</span> ${suffix}`;
 }
 
-function uniqueByCountry(results) {
+/**
+ * Evita:
+ * - Recife em estado errado
+ * - cidades repetidas do mesmo país
+ */
+function uniqueByCountryAndState(results) {
   const map = new Map();
 
   results.forEach(item => {
-    if (item.country_code && !map.has(item.country_code)) {
-      map.set(item.country_code, item);
+    const key = `${item.countryCode}-${item.stateCode || "NA"}-${item.name}`;
+    if (!map.has(key)) {
+      map.set(key, item);
     }
   });
 
