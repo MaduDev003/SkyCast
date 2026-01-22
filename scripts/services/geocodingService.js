@@ -65,6 +65,7 @@ function bindEnterKey({ input, container }, onSelect) {
 
     if (results.length) {
       clearSuggestions(container);
+      updateLocationHeader(results[0]);
       onSelect({
         lat: results[0].latitude,
         lon: results[0].longitude
@@ -111,9 +112,11 @@ function renderLocationItem(item, container, input, onSelect) {
     </div>
   `;
 
+
   div.addEventListener("click", () => {
     input.value = item.name;
     clearSuggestions(container);
+    updateLocationHeader(item)
     onSelect({
       lat: item.latitude,
       lon: item.longitude
@@ -122,6 +125,28 @@ function renderLocationItem(item, container, input, onSelect) {
 
   container.appendChild(div);
 }
+
+function getStateAbbreviation(stateName) {
+  if (!stateName) return "";
+
+  const words = stateName.trim().split(/\s+/); 
+  if (words.length === 1) {
+    return words[0].slice(0, 2).toUpperCase();
+  } else {
+    return words.map(w => w[0].toUpperCase()).join("");
+  }
+}
+
+async function updateLocationHeader(location) {
+  if (!location || !location.name) return; 
+  const city = location.name;
+  const stateAbbr = getStateAbbreviation(location.admin1);
+  console.log(city, stateAbbr);
+
+  const h3 = document.querySelector(".location h3");
+  h3.innerHTML = `<span>${city},</span> ${stateAbbr}`; 
+}
+
 function uniqueByCountry(results) {
   const map = new Map();
 

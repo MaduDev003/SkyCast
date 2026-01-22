@@ -33,7 +33,6 @@ function mountGraphicTemperatureData(todayForecast){
     const hours = [];
     const temperatures = [];
     for(const forecast of todayForecast){
-        console.log(forecast)
         hours.push(forecast.time);
         temperatures.push(forecast.temp);
     }
