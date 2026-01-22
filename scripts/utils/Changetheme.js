@@ -1,5 +1,5 @@
 import { renderForecastWeather } from "../services/forecastService.js";
-import  {applyMapTheme} from "../services/mapService.js";
+import { applyMapTheme } from "../services/mapService.js";
 
 function getRootStyles(vars) {
     const root = getComputedStyle(document.documentElement);
@@ -56,6 +56,7 @@ function getElements() {
         suggestionsPlaces: document.querySelector(".suggestions"),
 
         loadingSpan: document.getElementById("loader-text"),
+        noLocationFound: document.querySelector(".no-location-found p")
     };
 }
 
@@ -98,9 +99,13 @@ function applyUITheme(theme) {
         el.suggestionsPlaces.classList.add(theme);
     }
 
-   if (el.loadingSpan) {
-  el.loadingSpan.style.color = styles.legend;
-}
+    if (el.loadingSpan) {
+        el.loadingSpan.style.color = styles.legend;
+    }
+
+    if (el.noLocationFound) {
+        el.noLocationFound.style.color = styles.legend;
+    }
 }
 
 function updateToggleIcons(isDark) {
@@ -116,21 +121,21 @@ function updateToggleIcons(isDark) {
 }
 
 function setTheme(theme, state) {
-  state.theme = theme;
+    state.theme = theme;
 
-  applyUITheme(theme);
-  applyMapTheme(theme);
-  updateToggleIcons(theme === "dark");
+    applyUITheme(theme);
+    applyMapTheme(theme);
+    updateToggleIcons(theme === "dark");
 
-  const forecastData =
-    state.activeForecast === "today"
-      ? state.forecast.today
-      : state.forecast.week;
+    const forecastData =
+        state.activeForecast === "today"
+            ? state.forecast.today
+            : state.forecast.week;
 
-  if (forecastData.length) {
-    renderForecastWeather(forecastData, theme);
-  }
+    if (forecastData.length) {
+        renderForecastWeather(forecastData, theme);
+    }
 }
 
 
-export {setTheme, applyUITheme};
+export { setTheme, applyUITheme };

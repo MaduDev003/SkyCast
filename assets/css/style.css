@@ -766,3 +766,17 @@ position: relative;
   font-size: 14px;
   color: var(--legend-light-background-font-color);
 }
+
+.no-location-found{
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center
+
+  
+}
+
+.no-location-found p {
+   font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+}
