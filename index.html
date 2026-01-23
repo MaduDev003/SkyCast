@@ -50,45 +50,11 @@
         <main>
             <div class="dashboard">
                 <div class="selected-weather">
-                    <div class="date">
-                        <p id="date"></p>
-                    </div>
-
-                    <div class="main-weather">
-                        <div class="weather-container">
-                            <div class="weather-info">
-                                <img src="assets/icons/wind.svg" alt="ícone de vento" onload="SVGInject(this)" />
-                                <p>Vento</p>
-                            </div>
-                            <h2 id="wind_speed"></h2>
-                            <div class="weather-info">
-                                <img src="assets/icons/thermometer.svg" alt="ícone de termometro"
-                                    onload="SVGInject(this)" />
-                                <p>Sensação Térmica</p>
-                            </div>
-                            <h2 id="current_temperature"></h2>
-                        </div>
-                        <div class="weather">
-                            <img id="weather-icon" src="assets/icons/weather-icons/rain.svg" alt="chuva" />
-                            <div class="temperature">
-                                <h1 id="temperature"></h1>
-                                <p id="weather_description">Nublado</p>
+                   <div id="container-forecast" class="container-forecast">
+                            <div id="loading" class="loading">
+                                <div class="loader"></div>
                             </div>
                         </div>
-                        <div class="weather-container">
-                            <div class="weather-info">
-                                <img src="assets/icons/sun.svg" alt="ícone do sol" onload="SVGInject(this)" />
-                                <p>Raios UV</p>
-                            </div>
-                            <h2 id="uv_index"></h2>
-                            <div class="weather-info">
-                                <img src="assets/icons/cloud-rain.svg" alt="ícone de nuvem de chuva"
-                                    onload="SVGInject(this)" />
-                                <p>Chance de Chuva</p>
-                            </div>
-                            <h2 id="chance_of_rain">100%</h2>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="weather-preview">

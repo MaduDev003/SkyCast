@@ -4,6 +4,24 @@ import { getWeekForecast, getTodayForecast } from "../api/forecastApi.js";
 import { applyUITheme } from "../utils/changetheme.js"
 
 
+async function loadForecast(location) {
+  const weekForecastData = await getWeekForecast(location);
+  const todayForecastData = await getTodayForecast(location);
+   showCurrentWeatherData();
+  const todayForecast = mountTodayForecast(todayForecastData);
+  const weekForecast = mountWeekForecast(weekForecastData);
+
+  const timezone = todayForecastData.timezone;
+  
+  mountCurrentWeatherData(timezone, todayForecast);
+  renderForecastWeather(todayForecast, "light");
+
+  return {
+    todayForecast,
+    weekForecast
+  };
+}
+
 function mountTodayForecast(data) {
   if (!data?.hourly?.time) return [];
 
@@ -46,25 +64,6 @@ function mountWeekForecast(data) {
   });
 }
 
-async function loadForecast(location) {
-  const weekForecastData = await getWeekForecast(location);
-  const todayForecastData = await getTodayForecast(location);
-  const todayForecast = mountTodayForecast(todayForecastData);
-  const weekForecast = mountWeekForecast(weekForecastData);
-
-  const currentTime =todayForecastData.current.time;
-  const timezone = todayForecastData.timezone;
-  
-  renderCurrentWeather(timezone, currentTime, todayForecast);
-  renderForecastWeather(todayForecast, "light");
-
-  return {
-    todayForecast,
-    weekForecast
-  };
-}
-
-
 function renderForecastWeather(data, theme) {
   const container = document.getElementById("container-forecast");
   container.innerHTML = "";
@@ -89,7 +88,7 @@ function renderForecastWeather(data, theme) {
   applyUITheme(theme);
 }
 
-function renderCurrentWeather(timezone, currentTime, data) {
+function mountCurrentWeatherData(timezone, data) {
   const temperatureElement = document.getElementById("temperature");
   const windSpeedElement = document.getElementById("wind_speed");
   const uvIndexElement = document.getElementById("uv_index");
@@ -115,9 +114,59 @@ function renderCurrentWeather(timezone, currentTime, data) {
 }
 
 
+function showCurrentWeatherData() {
+  const container = document.querySelector(".selected-weather");
+
+  container.innerHTML = `
+    <div class="date">
+      <p id="date"></p>
+    </div>
+
+    <div class="main-weather">
+      <div class="weather-container">
+        <div class="weather-info">
+          <img src="assets/icons/wind.svg" alt="ícone de vento" onload="SVGInject(this)" />
+          <p>Vento</p>
+        </div>
+        <h2 id="wind_speed"></h2>
+
+        <div class="weather-info">
+          <img src="assets/icons/thermometer.svg" alt="ícone de termometro" onload="SVGInject(this)" />
+          <p>Sensação Térmica</p>
+        </div>
+        <h2 id="current_temperature"></h2>
+      </div>
+
+      <div class="weather">
+        <img id="weather-icon" src="assets/icons/weather-icons/rain.svg" alt="chuva" />
+        <div class="temperature">
+          <h1 id="temperature"></h1>
+          <p id="weather_description">Nublado</p>
+        </div>
+      </div>
+
+      <div class="weather-container">
+        <div class="weather-info">
+          <img src="assets/icons/sun.svg" alt="ícone do sol" onload="SVGInject(this)" />
+          <p>Raios UV</p>
+        </div>
+        <h2 id="uv_index"></h2>
+
+        <div class="weather-info">
+          <img src="assets/icons/cloud-rain.svg" alt="ícone de nuvem de chuva" onload="SVGInject(this)" />
+          <p>Chance de Chuva</p>
+        </div>
+        <h2 id="chance_of_rain"></h2>
+      </div>
+    </div>
+  `;
+  
+}
+
+
 
 export {
   loadForecast,
   renderForecastWeather,
-  renderCurrentWeather
+  mountCurrentWeatherData
 };

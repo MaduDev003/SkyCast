@@ -4,8 +4,7 @@ import { updateMapView } from "./services/mapService.js";
 import { setTheme } from "./utils/changetheme.js";
 import {
   loadForecast,
-  renderForecastWeather,
-  renderCurrentWeather
+  renderForecastWeather
 } from "./services/forecastService.js";
 import { mountGraphicTemperatureData } from "./services/temperatureGraphicService.js";
 

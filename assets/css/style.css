@@ -507,6 +507,14 @@ position: relative;
   width: 50px;
 }
 
+.weather-info svg path{
+  color: var(--legend-light-background-font-color);
+}
+
+.weather-info svg {
+   color: var(--legend-light-background-font-color);
+}
+
 .day-weather:hover,
 .day-weather:focus-visible {
   transform: scale(1.03);
@@ -780,3 +788,4 @@ position: relative;
    font-family: 'Montserrat', sans-serif;
   font-size: 14px;
 }
+
