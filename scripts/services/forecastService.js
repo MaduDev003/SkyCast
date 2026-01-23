@@ -56,10 +56,7 @@ function mountWeekForecast(data) {
     return {
       date: day,
       temp: Math.round((max + min) / 2),
-      weather_code: data.daily.weather_code[i],
-      rain: data.daily.precipitation_probability_max[i],
-      uv_index: data.daily.uv_index_max[i],
-      wind_speed: data.daily.wind_speed_10m_max[i]
+      weather_code: data.daily.weather_code[i]
     };
   });
 }
