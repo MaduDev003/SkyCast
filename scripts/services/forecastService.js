@@ -167,6 +167,5 @@ function showCurrentWeatherData() {
 
 export {
   loadForecast,
-  renderForecastWeather,
-  mountCurrentWeatherData
+  renderForecastWeather
 };

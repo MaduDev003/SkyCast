@@ -84,7 +84,7 @@ body {
   min-height: 0;       
   overflow: visible;
 }
-.dashboard>div {
+.dashboard > section {
   border-radius: 15px;
   background-color: var(--light-box-background-color);
   box-shadow:

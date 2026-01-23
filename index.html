@@ -32,58 +32,47 @@
             </div>
             <div class="search-box">
                 <input type="search" id="search" autocomplete="off" placeholder="Pesquisar Local...">
-
                 <span id="clear-btn" class="clear-btn">&times;</span>
                 <div id="search-suggestions" class="suggestions"></div>
-
             </div>
-
             <label class="switch">
                 <input type="checkbox" id="theme-switch" onchange="changeTheme(event)">
                 <span class="slider">
                     <img id="selected-theme" src="assets/icons/sun.svg" alt="ícone da tela clara">
                 </span>
             </label>
-
         </header>
-        
         <main>
             <div class="dashboard">
-                <div class="selected-weather">
-                   <div id="container-forecast" class="container-forecast">
-                            <div id="loading" class="loading">
-                                <div class="loader"></div>
-                            </div>
+                <section class="selected-weather">
+                    <div id="container-forecast" class="container-forecast">
+                        <div id="loading" class="loading">
+                            <div class="loader"></div>
                         </div>
-                </div>
-
-                <div class="weather-preview">
+                    </div>
+                </section>
+                <section class="weather-preview">
                     <div class="forecast">
                         <ul onclick="selectForecast(event)">
                             <li class="active" data-type="today">Hoje</li>
                             <li data-type="weekly">Semanal</li>
                         </ul>
+                    </div>
+                    <div id="container-forecast" class="container-forecast">
+                        <div id="loading" class="loading">
+                            <div class="loader"></div>
                         </div>
-                        <div id="container-forecast" class="container-forecast">
-                            <div id="loading" class="loading">
-                                <div class="loader"></div>
-                            </div>
-                        </div>
-                        
-                        </div>
-
-                <div id="map" class="map">
+                    </div>
+                </section>
+                <section id="map" class="map">
                     <button id="recenter">Centralizar</button>
-                </div>
-
-                <div id="graphic" class="graphic">
+                </section>
+                <section id="graphic" class="graphic">
                     <div id="loading-graphic" class="loading">
                         <div class="loader"></div>
                     </div>
                     <canvas id="myChart"></canvas>
-                </div>
-
-
+                </section>
             </div>
         </main>
     </div>

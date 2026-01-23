@@ -44,7 +44,7 @@ function getElements() {
         tempLegend: document.querySelector(".temperature p"),
         date: document.querySelector(".date p"),
 
-        weatherItems: document.querySelectorAll(".dashboard > div"),
+        weatherItems: document.querySelectorAll(".dashboard > section"),
         legends: document.querySelectorAll(".weather-info p"),
         icons: document.querySelectorAll(".weather-info svg path"),
         iconsSvg: document.querySelectorAll(".weather-info svg"),
