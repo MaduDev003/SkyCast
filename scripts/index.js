@@ -67,8 +67,6 @@ async function updateLocation({ lat, lon }) {
 
     state.forecast.today = todayForecast;
     state.forecast.week = weekForecast;
-
-    renderCurrentWeather(todayForecast);
     renderForecastWeather(getActiveForecast(), state.theme);
     mountGraphicTemperatureData(todayForecast);
   } catch(error){
@@ -79,16 +77,13 @@ async function updateLocation({ lat, lon }) {
 
 async function initApp() {
   setTheme(state.theme, state);
-
   const { todayForecast, weekForecast } = await loadForecast(state.location);
 
   state.forecast.today = todayForecast;
   state.forecast.week = weekForecast;
 
-  renderCurrentWeather(todayForecast);
   renderForecastWeather(getActiveForecast(), state.theme);
   mountGraphicTemperatureData(todayForecast);
-
   searchLocationCoordinates(updateLocation);
 }
 

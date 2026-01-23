@@ -1,30 +1,31 @@
 import { weatherCodeToIcon } from "../mappings/weatherCodeToIcon.js";
-import { formatDate, getCurrentTime } from "../utils/formatDate.js";
-import { getLocationForecast } from "../api/forecastApi.js";
+import { formatDate, getCurrentTime,formatTime } from "../utils/formatDate.js";
+import { getWeekForecast, getTodayForecast } from "../api/forecastApi.js";
 import { applyUITheme } from "../utils/changetheme.js"
 
 
 function mountTodayForecast(data) {
-  if (!data.hourly?.time) return [];
+  if (!data?.hourly?.time) return [];
 
-  const today = new Date().toISOString().slice(0, 10);
-  const currentTemp = Math.round(data.current.temperature_2m);
+  const {
+    hourly,
+    current
+  } = data;
 
-  return data.hourly.time.reduce((acc, time, i) => {
-    if (time.startsWith(today)) {
-      acc.push({
-        time: time.slice(11, 16),
-        temp: Math.round(data.hourly.temperature_2m[i]),
-        feels_like: Math.round(data.hourly.apparent_temperature[i]),
-        weather_code: data.hourly.weather_code[i],
-        rain: data.hourly.precipitation_probability[i],
-        uv_index: data.hourly.uv_index[i],
-        wind_speed: data.hourly.wind_speed_10m[i],
-        current_temperature: currentTemp
-      });
-    }
-    return acc;
-  }, []);
+  return hourly.time.map((time, index) => ({
+    time: formatTime(time),
+    temp: Math.round(hourly.temperature_2m[index]),
+    feels_like: current?.apparent_temperature
+      ? Math.round(current.apparent_temperature)
+      : null,
+    weather_code: hourly.weather_code[index],
+    rain: hourly.precipitation_probability[index],
+    wind_speed: current?.wind_speed_10m ?? null,
+    uv_index: hourly.uv_index[index] ?? null,
+    current_temperature: current
+      ? Math.round(current.temperature_2m)
+      : null
+  }));
 }
 
 function mountWeekForecast(data) {
@@ -46,10 +47,16 @@ function mountWeekForecast(data) {
 }
 
 async function loadForecast(location) {
-  const forecastData = await getLocationForecast(location);
+  const weekForecastData = await getWeekForecast(location);
+  const todayForecastData = await getTodayForecast(location);
+  const todayForecast = mountTodayForecast(todayForecastData);
+  const weekForecast = mountWeekForecast(weekForecastData);
 
-  const todayForecast = mountTodayForecast(forecastData);
-  const weekForecast = mountWeekForecast(forecastData);
+  const currentTime =todayForecastData.current.time;
+  const timezone = todayForecastData.timezone;
+  
+  renderCurrentWeather(timezone, currentTime, todayForecast);
+  renderForecastWeather(todayForecast, "light");
 
   return {
     todayForecast,
@@ -82,7 +89,7 @@ function renderForecastWeather(data, theme) {
   applyUITheme(theme);
 }
 
-function renderCurrentWeather(data) {
+function renderCurrentWeather(timezone, currentTime, data) {
   const temperatureElement = document.getElementById("temperature");
   const windSpeedElement = document.getElementById("wind_speed");
   const uvIndexElement = document.getElementById("uv_index");
@@ -90,18 +97,23 @@ function renderCurrentWeather(data) {
   const currentTemperatureElement = document.getElementById("current_temperature");
   const subtitleDate = document.getElementById("date");
 
-  const currentTime = getCurrentTime();
-  const currentWeather = data.find(entry => entry.time === currentTime);
+  const now = getCurrentTime(timezone);
+  const roundedTime = formatTime(now);
+
+  const currentWeather = data.find(
+    entry => entry.time === roundedTime
+  );
 
   if (!currentWeather) return;
 
-  temperatureElement.textContent = `${currentWeather.temp} C°`;
+  temperatureElement.textContent = `${currentWeather.temp} °C`;
   windSpeedElement.textContent = `${currentWeather.wind_speed} KM/H`;
   uvIndexElement.textContent = currentWeather.uv_index;
   chanceOfRainElement.textContent = `${currentWeather.rain}%`;
-  currentTemperatureElement.textContent = `${currentWeather.feels_like} C°`;
-  subtitleDate.textContent = currentWeather.time;
+  currentTemperatureElement.textContent = `${currentWeather.feels_like} °C`;
+  subtitleDate.textContent = now;
 }
+
 
 
 export {
