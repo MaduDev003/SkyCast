@@ -558,7 +558,7 @@ position: relative;
   }
 
   .location h3 {
-    font-size: 12px;
+    font-size: 11px;
   }
   header .location svg {
     height: 15px;
@@ -569,7 +569,7 @@ position: relative;
     margin-right: 2px;
   }
   header input[type="search"] {
-    width: 180px;
+    width: 150px;
   }
 
   .app {

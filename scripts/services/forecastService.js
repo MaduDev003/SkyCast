@@ -1,5 +1,5 @@
 import { weatherCodeToIcon } from "../mappings/weatherCodeToIcon.js";
-import { formatDate, getCurrentTime,formatTime } from "../utils/formatDate.js";
+import { formatDate, getCurrentTime,formatTime } from "../utils/dateTimeFormat.js";
 import { getWeekForecast, getTodayForecast } from "../api/forecastApi.js";
 import { applyUITheme } from "../utils/changetheme.js"
 
@@ -95,6 +95,7 @@ function mountCurrentWeatherData(timezone, data) {
   const chanceOfRainElement = document.getElementById("chance_of_rain");
   const currentTemperatureElement = document.getElementById("current_temperature");
   const subtitleDate = document.getElementById("date");
+  const currentWeatherIcon = document.getElementById("weather-icon");
 
   const now = getCurrentTime(timezone);
   const roundedTime = formatTime(now);
@@ -104,13 +105,15 @@ function mountCurrentWeatherData(timezone, data) {
   );
 
   if (!currentWeather) return;
-
+  
   temperatureElement.textContent = `${currentWeather.temp} °C`;
   windSpeedElement.textContent = `${currentWeather.wind_speed} KM/H`;
   uvIndexElement.textContent = currentWeather.uv_index;
   chanceOfRainElement.textContent = `${currentWeather.rain}%`;
   currentTemperatureElement.textContent = `${currentWeather.feels_like} °C`;
   subtitleDate.textContent = now;
+  currentWeatherIcon.src = `assets/icons/weather-icons/${weatherCodeToIcon[currentWeather.weather_code]}`;
+
 }
 
 

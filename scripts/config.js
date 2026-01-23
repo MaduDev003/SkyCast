@@ -3,6 +3,6 @@ export const CONFIG = {
     lat: -23.5475,
     lon: -46.63611
   },
-  DEFAULT_MAP_ZOOM: 10,
+  DEFAULT_MAP_ZOOM: 8,
   DEFAULT_THEME: "light"
 };
