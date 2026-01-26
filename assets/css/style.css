@@ -414,6 +414,7 @@ input:checked+.slider::before {
   min-width: 0; 
 }
 #recenter {
+  display: none;
   position: absolute;
   z-index: 1000;
   bottom: 20px;
@@ -421,8 +422,14 @@ input:checked+.slider::before {
   padding: 10px 14px;
   background: #F4F4F4;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #b6b3b3;
   cursor: pointer;
+}
+
+#recenter span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: var(--dark-box-background-color);
 }
 
 .forecast {
@@ -797,4 +804,8 @@ position: relative;
 .container-forecast::-webkit-scrollbar-thumb {
   background: var(--legend-light-background-font-color);
   border-radius: 6px;
+}
+
+#map.dark {
+   filter: brightness(1) contrast(0.9);
 }
