@@ -1,5 +1,3 @@
-🇧🇷 Português | [🇺🇸 English](README.en.md)
-
 ## 🎯 Objetivo do projeto
 
 Este projeto foi criado com os seguintes objetivos principais:
@@ -11,6 +9,7 @@ Este projeto foi criado com os seguintes objetivos principais:
 - Utilização de **loaders** para informar o estado de carregamento ao usuário
 - Suporte a **modo claro e escuro** para melhorar a acessibilidade e a experiência de leitura
 - Layout responsivo adaptado para dispositivos **mobile e desktop**
+- Praticar a utilização de eventos em JavaScript para interação do usuário
 
 ## 🛠️ Tecnologias utilizadas
 
