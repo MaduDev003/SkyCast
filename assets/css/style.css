@@ -789,3 +789,12 @@ position: relative;
   font-size: 14px;
 }
 
+.container-forecast::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+.container-forecast::-webkit-scrollbar-thumb {
+  background: var(--legend-light-background-font-color);
+  border-radius: 6px;
+}
