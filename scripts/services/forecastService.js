@@ -1,7 +1,7 @@
 import { weatherCodeToIcon } from "../mappings/weatherCodeToIcon.js";
 import { formatDate, getCurrentTime,formatTime } from "../utils/dateTimeFormat.js";
 import { getWeekForecast, getTodayForecast } from "../api/forecastApi.js";
-import { applyUITheme } from "../utils/changetheme.js"
+import { applyUITheme } from "../utils/changeTheme.js"
 
 
 async function loadForecast(location) {

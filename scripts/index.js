@@ -1,7 +1,7 @@
 import { CONFIG } from "./config.js";
 import { searchLocationCoordinates } from "./services/geocodingService.js";
 import { updateMapView } from "./services/mapService.js";
-import { setTheme } from "./utils/changetheme.js";
+import { setTheme } from "./utils/changeTheme.js";
 import {
   loadForecast,
   renderForecastWeather
