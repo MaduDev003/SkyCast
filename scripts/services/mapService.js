@@ -76,15 +76,12 @@ function updateMapView(location, theme) {
     locationMarker = L.marker([location.lat, location.lon]).addTo(mapInstance);
   }
 
-  // Aplica tema se passado
   if (theme) applyMapTheme(theme);
 
-  // Garante que o botão de centralizar esteja visível
   const recenter = document.getElementById("recenter");
   if (recenter) recenter.style.display = "block";
 }
 
-// Inicializa o mapa assim que o módulo é importado
 initMap();
 
 export { updateMapView, applyMapTheme };
