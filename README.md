@@ -58,7 +58,7 @@ Este projeto foi criado com os seguintes objetivos principais:
 
 Projeto desenvolvido com foco em aprendizado, servindo como material de estudo e portfólio.
 
-## Créditos
+## ©️ Créditos
 
 - Ícones de clima por **Meteocons**  
   https://bas.dev/work/meteocons
