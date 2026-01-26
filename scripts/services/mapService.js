@@ -4,7 +4,7 @@ const MAP_LIGHT_THEME =
   "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png";
 
 const MAP_DARK_THEME =
-  "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png";
+  "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png";
 
 const DEFAULT_ZOOM = CONFIG.DEFAULT_MAP_ZOOM;
 const worldBounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
@@ -32,6 +32,7 @@ function createTileLayer(url) {
     minZoom: 3,
     noWrap: true,
     bounds: worldBounds,
+    detectRetina: false,
     attribution: "&copy; OpenStreetMap, &copy; CARTO"
   });
 }
