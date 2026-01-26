@@ -1,6 +1,5 @@
 import { CONFIG } from "../config.js";
 
-// Mapas gratuitos e confiáveis
 const MAP_LIGHT_THEME =
   "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
 const MAP_DARK_THEME =
@@ -16,8 +15,6 @@ let mapInstance;
 
 function initMap() {
   const defaultLocation = [CONFIG.DEFAULT_LOCATION.lat, CONFIG.DEFAULT_LOCATION.lon];
-
-  // Cria mapa
   mapInstance = L.map("map", {
     center: defaultLocation,
     zoom: DEFAULT_ZOOM,
@@ -26,16 +23,12 @@ function initMap() {
     maxZoom: 19,
   });
 
-  // Marca a localização inicial
   locationMarker = L.marker(defaultLocation).addTo(mapInstance);
-
-  // Tile padrão (claro)
   tileLayer = createTileLayer(MAP_LIGHT_THEME).addTo(mapInstance);
 
-  // Configura botão centralizar
   const recenter = document.getElementById("recenter");
   if (recenter) {
-    recenter.style.display = "block"; // garante que apareça
+    recenter.style.display = "block";
     recenter.addEventListener("click", () => {
       mapInstance.setView([CONFIG.DEFAULT_LOCATION.lat, CONFIG.DEFAULT_LOCATION.lon], DEFAULT_ZOOM);
       locationMarker.setLatLng([CONFIG.DEFAULT_LOCATION.lat, CONFIG.DEFAULT_LOCATION.lon]);
