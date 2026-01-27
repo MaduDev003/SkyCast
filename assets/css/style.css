@@ -394,7 +394,10 @@ input:checked+.slider::before {
   justify-content: center;
 }
 
-
+  .temperature {    
+    text-align: center;
+  }
+  
 .temperature h1 {
   font-size: 1.7rem;
   color: var(--dark-box-background-color);
@@ -544,6 +547,7 @@ position: relative;
   color: var(--legend-light-background-font-color);
 }
 
+
 .day-weather p:nth-child(2) {
   font-weight: 600px;
 
@@ -624,6 +628,8 @@ position: relative;
   .weather-info {
     gap: 4px;
   }
+
+
 
   .weather img {
     width: 90px;
@@ -809,3 +815,4 @@ position: relative;
 #map.dark {
    filter: brightness(1) contrast(0.9);
 }
+

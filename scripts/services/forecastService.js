@@ -69,13 +69,19 @@ function renderForecastWeather(data, theme) {
 
   data.forEach(item => {
     const section = document.createElement("section");
-    const weatherIcon = weatherCodeToIcon[item.weather_code] || "wind.svg";
+    const weatherIcon = weatherCodeToIcon[item.weather_code].weather || "wind.svg";
+    const weatherDescription = weatherCodeToIcon[item.weather_code].description || "nublado";
+
 
     section.classList.add("day-weather");
 
     section.innerHTML = `
       <p>${isWeek ? formatDate(item.date) : item.time}</p>
-      <img src="assets/icons/weather-icons/${weatherIcon}" alt="ícone de clima">
+      <img 
+        src="assets/icons/weather-icons/${weatherIcon}" 
+        alt="${weatherDescription}"
+        title="${weatherDescription}"
+      >
       <h3>${item.temp ?? "--"} °C</h3>
     `;
 
@@ -93,6 +99,8 @@ function mountCurrentWeatherData(timezone, data) {
   const currentTemperatureElement = document.getElementById("current_temperature");
   const subtitleDate = document.getElementById("date");
   const currentWeatherIcon = document.getElementById("weather-icon");
+  const weatherDescription = document.getElementById("weather_description");
+
 
   const now = getCurrentTime(timezone);
   const roundedTime = formatTime(now);
@@ -109,7 +117,8 @@ function mountCurrentWeatherData(timezone, data) {
   chanceOfRainElement.textContent = `${currentWeather.rain}%`;
   currentTemperatureElement.textContent = `${currentWeather.feels_like} °C`;
   subtitleDate.textContent = now;
-  currentWeatherIcon.src = `assets/icons/weather-icons/${weatherCodeToIcon[currentWeather.weather_code]}`;
+  weatherDescription.textContent = weatherCodeToIcon[currentWeather.weather_code].description;
+  currentWeatherIcon.src = `assets/icons/weather-icons/${weatherCodeToIcon[currentWeather.weather_code].weather}`;
 
 }
 
