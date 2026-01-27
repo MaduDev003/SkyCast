@@ -76,8 +76,7 @@ function renderSuggestions(results, container, input, onSelect) {
   const uniqueResults = uniqueByCountryAndState(results);
 
   if (!uniqueResults.length) {
-    container.classList.add("no-location-found");
-    container.innerHTML = `<p>Nenhum resultado encontrado.</p>`;
+    container.innerHTML = `<p class="no-location-found">Nenhum resultado encontrado.</p>`;
     container.style.display = "block";
     return;
   }

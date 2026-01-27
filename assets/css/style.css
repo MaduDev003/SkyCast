@@ -792,15 +792,19 @@ position: relative;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center
-
-  
-}
-
-.no-location-found p {
-   font-family: 'Montserrat', sans-serif;
+ font-family: 'Montserrat', sans-serif;
   font-size: 14px;
+
 }
+
+.no-location-found {
+  color: var(--legend-light-background-font-color);
+}
+
+.dark .no-location-found {
+  color: var(--legend-dark-background-font-color);
+}
+
 
 .container-forecast::-webkit-scrollbar {
   width: 8px;

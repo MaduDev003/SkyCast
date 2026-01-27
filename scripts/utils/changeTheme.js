@@ -56,10 +56,11 @@ function getElements() {
         weatherTemperature: document.querySelectorAll(".day-weather h3"),
 
         suggestionsPlaces: document.querySelector(".suggestions"),
-        loadingSpan: document.getElementById("loader-text"),
-        noLocationFound: document.querySelector(".no-location-found p")
+        loadingSpan: document.getElementById("loader-text")
     };
 }
+
+
 
 function applyUITheme(theme) {
     const styles = theme === "dark" ? darkThemeStyles() : lightThemeStyles();
@@ -127,10 +128,8 @@ function applyUITheme(theme) {
         el.loadingSpan.style.color = styles.legend;
     }
 
-    if (el.noLocationFound) {
-        el.noLocationFound.style.color = styles.legend;
-    }
 }
+
 
 function updateToggleIcons(isDark) {
     const selectedTheme = document.getElementById("selected-theme");
