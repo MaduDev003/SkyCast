@@ -7,7 +7,6 @@ const MAP_DARK_THEME =
 
 const DEFAULT_ZOOM = CONFIG.DEFAULT_MAP_ZOOM;
 const worldBounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
-const SUBDOMAINS = ["a", "b", "c", "d"];
 
 let tileLayer;
 let locationMarker;
@@ -40,7 +39,6 @@ function initMap() {
 
 function createTileLayer(url) {
   return L.tileLayer(url, {
-    subdomains: SUBDOMAINS,
     maxZoom: 19,
     minZoom: 3,
     noWrap: true,
